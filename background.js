@@ -20,9 +20,12 @@ const rules = urlFilters.flatMap((urlFilter, index) => [
     priority: index + 1,
     action: {
       type: 'modifyHeaders',
-      requestHeaders: [
-        { header: 'referer', operation: 'remove' },
-      ],
+      ...(urlFilter === '||backpack.exchange/' ? {
+        requestHeaders: [
+          { header: 'origin', value: 'https://backpack.exchange', operation: 'set' },
+          { header: 'referer', value: 'https://backpack.exchange/', operation: 'set' },
+        ],
+      } : {}),
       responseHeaders: [
         { header: 'access-control-allow-origin', value: '*', operation: 'set' },
         { header: 'vary', value: 'Origin', operation: 'set' },
