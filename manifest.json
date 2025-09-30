@@ -1,26 +1,25 @@
 {
-  "manifest_version": 3,
-  "name": "CORS Relaxer",
-  "version": "0.0.1",
-  "description": "Loosen CORS for development by reflecting Origin/headers.",
-  "permissions": [
-    "declarativeNetRequest"
-  ],
-  "host_permissions": [
-    "https://taoli.tools/*",
-    "*://*.gate.io/*",
-    "*://*.gate.com/*",
-    "*://*.gateio.ws/*",
-    "*://*.bitget.com/*",
-    "*://*.binance.com/*",
-    "*://*.backpack.exchange/*",
-    "*://*.apex.exchange/*",
-    "*://*.coinbase.com/*",
-    "*://*.asterdex.com/*",
-    "*://*.bybit.com/*",
-    "*://*.mexc.com/*"
-  ],
-  "background": {
-    "service_worker": "background.js"
-  }
+	"manifest_version": 3,
+	"name": "Taoli Tools Extension",
+	"version": "0.0.1",
+	"description": "Taoli Tools Extension",
+	"permissions": ["declarativeNetRequest"],
+	"host_permissions": [
+		"https://taoli.tools/*",
+		"*://*.gate.io/*",
+		"*://*.gate.com/*",
+		"*://*.gateio.ws/*",
+		"*://*.bitget.com/*",
+		"*://*.binance.com/*",
+		"*://*.coinbase.com/*",
+		"*://*.okx.com/*",
+		"*://*.backpack.exchange/*",
+		"*://*.apex.exchange/*",
+		"*://*.asterdex.com/*",
+		"*://*.bybit.com/*",
+		"*://*.mexc.com/*"
+	],
+	"background": {
+		"service_worker": "background.js"
+	}
 }
