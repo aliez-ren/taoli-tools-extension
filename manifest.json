@@ -8,22 +8,17 @@
   ],
   "host_permissions": [
     "https://taoli.tools/*",
-    "https://www.gate.io/*",
-    "https://www.gate.com/*",
-    "https://api.gateio.ws/*",
-    "https://www.bitget.com/*",
-    "https://api.bitget.com/*",
-    "https://www.binance.com/*",
-    "https://api.binance.com/*",
-    "https://api.backpack.exchange/*",
-    "https://omni.apex.exchange/*",
-    "https://api.coinbase.com/*",
-    "https://api.international.coinbase.com/*",
-    "https://fapi.asterdex.com/*",
-    "https://api.bybit.com/*",
-    "https://api2.bybit.com/*",
-    "https://api.mexc.com/*",
-    "https://contract.mexc.com/*"
+    "*://*.gate.io/*",
+    "*://*.gate.com/*",
+    "*://*.gateio.ws/*",
+    "*://*.bitget.com/*",
+    "*://*.binance.com/*",
+    "*://*.backpack.exchange/*",
+    "*://*.apex.exchange/*",
+    "*://*.coinbase.com/*",
+    "*://*.asterdex.com/*",
+    "*://*.bybit.com/*",
+    "*://*.mexc.com/*"
   ],
   "background": {
     "service_worker": "background.js"

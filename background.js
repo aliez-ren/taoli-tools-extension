@@ -1,51 +1,27 @@
-const HOSTNAME = 'taoli.tools'
+const initiatorDomains = ['taoli.tools']
 
-const HOSTNAMES_0 = [
-  'www.gate.io',
-  'www.gate.com',
-  'api.gateio.ws',
-  'www.bitget.com',
-  'api.bitget.com',
-  'www.binance.com',
-  'api.binance.com',
-  'omni.apex.exchange',
-  'api.coinbase.com',
-  'api.international.coinbase.com',
-  'fapi.asterdex.com',
-  'api.bybit.com',
-  'api2.bybit.com',
-  'api.mexc.com',
-  'contract.mexc.com',
+const urlFilters = [
+  '||gate.io/',
+  '||gate.com/',
+  '||gateio.ws/',
+  '||bitget.com/',
+  '||binance.com/',
+  '||coinbase.com/',
+  '||apex.exchange/',
+  '||bybit.com/',
+  '||mexc.com/',
+  '||backpack.exchange/',
+  '||asterdex.com/',
 ]
 
-const HOSTNAMES_1 = [
-  'api.backpack.exchange',
-]
-
-const RULES = [
+const rules = urlFilters.flatMap((urlFilter, index) => [
   {
-    id: 1,
-    priority: 1,
-    action: {
-      type: 'modifyHeaders',
-      responseHeaders: [
-        { header: 'access-control-allow-origin', value: '*', operation: 'set' },
-        { header: 'vary', value: 'Origin', operation: 'set' },
-        { header: 'access-control-allow-credentials', value: 'true', operation: 'set' },
-        { header: 'access-control-expose-headers', value: '*', operation: 'set' },
-      ],
-    },
-    condition: {
-      domains: [HOSTNAME, ...HOSTNAMES_0],
-    },
-  },
-  {
-    id: 2,
-    priority: 2,
+    id: index + 1,
+    priority: index + 1,
     action: {
       type: 'modifyHeaders',
       requestHeaders: [
-        { header: 'origin', operation: 'remove' },
+        { header: 'referer', operation: 'remove' },
       ],
       responseHeaders: [
         { header: 'access-control-allow-origin', value: '*', operation: 'set' },
@@ -55,12 +31,14 @@ const RULES = [
       ],
     },
     condition: {
-      domains: [HOSTNAME, ...HOSTNAMES_1],
+      initiatorDomains,
+      urlFilter,
+      resourceTypes: ['xmlhttprequest'],
     },
   },
   {
-    id: 3,
-    priority: 3,
+    id: urlFilters.length + index + 1,
+    priority: urlFilters.length + index + 1,
     action: {
       type: 'modifyHeaders',
       responseHeaders: [
@@ -70,32 +48,34 @@ const RULES = [
       ],
     },
     condition: {
-      domains: [HOSTNAME, ...HOSTNAMES_0, ...HOSTNAMES_1],
+      initiatorDomains,
+      urlFilter,
+      resourceTypes: ['xmlhttprequest'],
       requestMethods: ['options'],
     },
   },
-];
+])
 
-const RULE_IDS = RULES.map(({ id }) => id);
+const ruleIds = rules.map(({ id }) => id)
 
 async function applyCorsRelaxerRules() {
   try {
     await chrome.declarativeNetRequest.updateDynamicRules({
-      removeRuleIds: RULE_IDS,
-      addRules: RULES,
-    });
+      removeRuleIds: ruleIds,
+      addRules: rules,
+    })
   } catch (error) {
-    console.error('Failed to update CORS relaxer rules', error);
+    console.error('Failed to update CORS relaxer rules', error)
   }
 }
 
 const ensureRules = () => {
   applyCorsRelaxerRules().catch((error) => {
-    console.error('Unexpected error while applying CORS relaxer rules', error);
-  });
-};
+    console.error('Unexpected error while applying CORS relaxer rules', error)
+  })
+}
 
-chrome.runtime.onInstalled.addListener(ensureRules);
-chrome.runtime.onStartup.addListener(ensureRules);
+chrome.runtime.onInstalled.addListener(ensureRules)
+chrome.runtime.onStartup.addListener(ensureRules)
 
-ensureRules();
+ensureRules()
