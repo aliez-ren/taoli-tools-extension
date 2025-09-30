@@ -1,32 +1,47 @@
-const HOST_PATTERNS = [
-  'https://taoli.tools/*',
-  'https://www.gate.io/*',
-  'https://www.gate.com/*',
-  'https://api.gateio.ws/*',
-  'https://www.bitget.com/*',
-  'https://api.bitget.com/*',
-  'https://www.binance.com/*',
-  'https://api.binance.com/*',
-  'https://api.backpack.exchange/*',
-  'https://omni.apex.exchange/*',
-  'https://api.coinbase.com/*',
-  'https://api.international.coinbase.com/*',
-  'https://fapi.asterdex.com/*',
-  'https://api.bybit.com/*',
-  'https://api2.bybit.com/*',
-  'https://api.mexc.com/*',
-  'https://contract.mexc.com/*',
-];
+const HOSTNAME = 'taoli.tools'
 
-const HOSTNAMES = HOST_PATTERNS.map((pattern) => {
-  const sanitized = pattern.replace(/\*/g, '');
-  return new URL(sanitized).hostname;
-});
+const HOSTNAMES_0 = [
+  'www.gate.io',
+  'www.gate.com',
+  'api.gateio.ws',
+  'www.bitget.com',
+  'api.bitget.com',
+  'www.binance.com',
+  'api.binance.com',
+  'omni.apex.exchange',
+  'api.coinbase.com',
+  'api.international.coinbase.com',
+  'fapi.asterdex.com',
+  'api.bybit.com',
+  'api2.bybit.com',
+  'api.mexc.com',
+  'contract.mexc.com',
+]
+
+const HOSTNAMES_1 = [
+  'api.backpack.exchange',
+]
 
 const RULES = [
   {
     id: 1,
     priority: 1,
+    action: {
+      type: 'modifyHeaders',
+      responseHeaders: [
+        { header: 'access-control-allow-origin', value: '*', operation: 'set' },
+        { header: 'vary', value: 'Origin', operation: 'set' },
+        { header: 'access-control-allow-credentials', value: 'true', operation: 'set' },
+        { header: 'access-control-expose-headers', value: '*', operation: 'set' },
+      ],
+    },
+    condition: {
+      domains: [HOSTNAME, ...HOSTNAMES_0],
+    },
+  },
+  {
+    id: 2,
+    priority: 2,
     action: {
       type: 'modifyHeaders',
       requestHeaders: [
@@ -40,12 +55,12 @@ const RULES = [
       ],
     },
     condition: {
-      domains: HOSTNAMES,
+      domains: [HOSTNAME, ...HOSTNAMES_1],
     },
   },
   {
-    id: 2,
-    priority: 2,
+    id: 3,
+    priority: 3,
     action: {
       type: 'modifyHeaders',
       responseHeaders: [
@@ -55,7 +70,7 @@ const RULES = [
       ],
     },
     condition: {
-      domains: HOSTNAMES,
+      domains: [HOSTNAME, ...HOSTNAMES_0, ...HOSTNAMES_1],
       requestMethods: ['options'],
     },
   },
@@ -74,7 +89,6 @@ async function applyCorsRelaxerRules() {
   }
 }
 
-// Re-register rules whenever the service worker wakes up so they stay in sync.
 const ensureRules = () => {
   applyCorsRelaxerRules().catch((error) => {
     console.error('Unexpected error while applying CORS relaxer rules', error);
