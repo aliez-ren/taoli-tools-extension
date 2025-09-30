@@ -1,4 +1,5 @@
-const urls = [
+const HOST_PATTERNS = [
+  'https://taoli.tools/*',
   'https://www.gate.io/*',
   'https://www.gate.com/*',
   'https://api.gateio.ws/*',
@@ -15,33 +16,72 @@ const urls = [
   'https://api2.bybit.com/*',
   'https://api.mexc.com/*',
   'https://contract.mexc.com/*',
-]
+];
 
-chrome.webRequest.onBeforeSendHeaders.addListener(
-	(e) => ({
-    requestHeaders: e.requestHeaders.filter(
-      ({ name }) => name.toLowerCase() !== 'origin',
-    ),
-	}),
-	{ urls },
-	['blocking', 'requestHeaders', 'extraHeaders'],
-)
+const HOSTNAMES = HOST_PATTERNS.map((pattern) => {
+  const sanitized = pattern.replace(/\*/g, '');
+  return new URL(sanitized).hostname;
+});
 
-chrome.webRequest.onHeadersReceived.addListener(
-  (e) => {
-    const headers = new Map(e.responseHeaders.map(({ name, value }) => [name.toLowerCase(), value]))
-    headers.set('access-control-allow-origin', '*')
-    headers.set('vary', 'Origin')
-    headers.set('access-control-allow-credentials', 'true')
-    headers.set('access-control-expose-headers', '*')
-    if (e.method === 'OPTIONS') {
-      headers.set('access-control-allow-methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD')
-      headers.set('access-control-allow-headers', '*')
-      headers.set('access-control-max-age', '600')
-    }
-    const responseHeaders = Array.from(headers.entries()).map(([name, value]) => ({ name, value }))
-    return { responseHeaders }
+const RULES = [
+  {
+    id: 1,
+    priority: 1,
+    action: {
+      type: 'modifyHeaders',
+      requestHeaders: [
+        { header: 'origin', operation: 'remove' },
+      ],
+      responseHeaders: [
+        { header: 'access-control-allow-origin', value: '*', operation: 'set' },
+        { header: 'vary', value: 'Origin', operation: 'set' },
+        { header: 'access-control-allow-credentials', value: 'true', operation: 'set' },
+        { header: 'access-control-expose-headers', value: '*', operation: 'set' },
+      ],
+    },
+    condition: {
+      domains: HOSTNAMES,
+    },
   },
-  { urls },
-  ['blocking', 'responseHeaders', 'extraHeaders']
-)
+  {
+    id: 2,
+    priority: 2,
+    action: {
+      type: 'modifyHeaders',
+      responseHeaders: [
+        { header: 'access-control-allow-methods', value: 'GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD', operation: 'set' },
+        { header: 'access-control-allow-headers', value: '*', operation: 'set' },
+        { header: 'access-control-max-age', value: '600', operation: 'set' },
+      ],
+    },
+    condition: {
+      domains: HOSTNAMES,
+      requestMethods: ['options'],
+    },
+  },
+];
+
+const RULE_IDS = RULES.map(({ id }) => id);
+
+async function applyCorsRelaxerRules() {
+  try {
+    await chrome.declarativeNetRequest.updateDynamicRules({
+      removeRuleIds: RULE_IDS,
+      addRules: RULES,
+    });
+  } catch (error) {
+    console.error('Failed to update CORS relaxer rules', error);
+  }
+}
+
+// Re-register rules whenever the service worker wakes up so they stay in sync.
+const ensureRules = () => {
+  applyCorsRelaxerRules().catch((error) => {
+    console.error('Unexpected error while applying CORS relaxer rules', error);
+  });
+};
+
+chrome.runtime.onInstalled.addListener(ensureRules);
+chrome.runtime.onStartup.addListener(ensureRules);
+
+ensureRules();

@@ -1,15 +1,31 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "CORS Relaxer",
   "version": "0.0.1",
   "description": "Loosen CORS for development by reflecting Origin/headers.",
   "permissions": [
-    "webRequest",
-    "webRequestBlocking",
-    "<all_urls>"
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "https://taoli.tools/*",
+    "https://www.gate.io/*",
+    "https://www.gate.com/*",
+    "https://api.gateio.ws/*",
+    "https://www.bitget.com/*",
+    "https://api.bitget.com/*",
+    "https://www.binance.com/*",
+    "https://api.binance.com/*",
+    "https://api.backpack.exchange/*",
+    "https://omni.apex.exchange/*",
+    "https://api.coinbase.com/*",
+    "https://api.international.coinbase.com/*",
+    "https://fapi.asterdex.com/*",
+    "https://api.bybit.com/*",
+    "https://api2.bybit.com/*",
+    "https://api.mexc.com/*",
+    "https://contract.mexc.com/*"
   ],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+    "service_worker": "background.js"
   }
 }
