@@ -3,7 +3,7 @@
 	"name": "Taoli Tools Extension",
 	"version": "0.0.1",
 	"description": "Taoli Tools Extension",
-	"permissions": ["declarativeNetRequest"],
+	"permissions": ["declarativeNetRequest", "declarativeNetRequestFeedback"],
 	"host_permissions": [
 		"https://taoli.tools/*",
 		"http://localhost:5173/*",

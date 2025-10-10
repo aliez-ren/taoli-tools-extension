@@ -116,4 +116,6 @@ const ensureRules = () => {
 chrome.runtime.onInstalled.addListener(ensureRules);
 chrome.runtime.onStartup.addListener(ensureRules);
 
+chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(console.log);
+
 ensureRules();
