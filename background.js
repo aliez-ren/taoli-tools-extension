@@ -82,7 +82,7 @@ const rules = urlFilters.flatMap((urlFilter, index) => [
 					value: "*",
 					operation: "set",
 				},
-				{ header: "access-control-max-age", value: "600", operation: "set" },
+				{ header: "access-control-max-age", value: "86400", operation: "set" },
 			],
 		},
 		condition: {
