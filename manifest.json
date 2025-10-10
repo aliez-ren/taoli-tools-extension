@@ -6,6 +6,7 @@
 	"permissions": ["declarativeNetRequest"],
 	"host_permissions": [
 		"https://taoli.tools/*",
+		"http://localhost:5173/*",
 		"*://*.gate.io/*",
 		"*://*.gate.com/*",
 		"*://*.gateio.ws/*",

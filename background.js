@@ -1,4 +1,4 @@
-const initiatorDomains = ["taoli.tools"];
+const initiatorDomains = ["taoli.tools", "localhost"];
 
 const urlFilters = [
 	"||gate.io/",
