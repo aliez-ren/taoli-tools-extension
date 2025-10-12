@@ -22,5 +22,20 @@
 	],
 	"background": {
 		"service_worker": "background.js"
-	}
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://taoli.tools/*", "http://localhost:5173/*"],
+			"js": ["content.js"],
+			"run_at": "document_start",
+			"all_frames": true
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"matches": ["https://taoli.tools/*", "http://localhost:5173/*"],
+			"resources": ["injected.js"]
+		}
+	],
+	"action": { "default_title": "Taoli Tools Extension" }
 }
