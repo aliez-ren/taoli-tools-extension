@@ -25,3 +25,8 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
 
 	return true;
 });
+
+chrome.action.onClicked.addListener(async () => {
+	const url = "https://taoli.tools";
+	await chrome.tabs.create({ url });
+});
