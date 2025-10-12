@@ -2,7 +2,7 @@ const TYPE = "EXTENSION_PROXY_FETCH";
 
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
 	const { type, req } = msg;
-	if (type !== TYPE) {
+	if (type !== TYPE || !req) {
 		return;
 	}
 
