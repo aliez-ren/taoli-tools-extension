@@ -10,7 +10,7 @@ globalThis.addEventListener("message", async ({ source, data }) => {
 		return;
 	}
 	const { type, id, req } = data;
-	if (type !== TYPE) {
+	if (type !== TYPE || !req) {
 		return;
 	}
 	try {
