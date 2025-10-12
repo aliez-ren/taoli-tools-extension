@@ -4,7 +4,20 @@
 	"version": "0.0.1",
 	"description": "Taoli Tools Extension",
 	"permissions": [],
-	"host_permissions": ["<all_urls>"],
+	"host_permissions": [
+		"*://*.gate.io/*",
+		"*://*.gate.com/*",
+		"*://*.gateio.ws/*",
+		"*://*.bitget.com/*",
+		"*://*.binance.com/*",
+		"*://*.coinbase.com/*",
+		"*://*.okx.com/*",
+		"*://*.backpack.exchange/*",
+		"*://*.apex.exchange/*",
+		"*://*.asterdex.com/*",
+		"*://*.bybit.com/*",
+		"*://*.mexc.com/*"
+	],
 	"background": {
 		"service_worker": "background.js"
 	},
