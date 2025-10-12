@@ -3,23 +3,8 @@
 	"name": "Taoli Tools Extension",
 	"version": "0.0.1",
 	"description": "Taoli Tools Extension",
-	"permissions": ["declarativeNetRequest", "declarativeNetRequestFeedback"],
-	"host_permissions": [
-		"https://taoli.tools/*",
-		"http://localhost:5173/*",
-		"*://*.gate.io/*",
-		"*://*.gate.com/*",
-		"*://*.gateio.ws/*",
-		"*://*.bitget.com/*",
-		"*://*.binance.com/*",
-		"*://*.coinbase.com/*",
-		"*://*.okx.com/*",
-		"*://*.backpack.exchange/*",
-		"*://*.apex.exchange/*",
-		"*://*.asterdex.com/*",
-		"*://*.bybit.com/*",
-		"*://*.mexc.com/*"
-	],
+	"permissions": [],
+	"host_permissions": ["<all_urls>"],
 	"background": {
 		"service_worker": "background.js"
 	},
