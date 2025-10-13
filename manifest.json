@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "Taoli Tools Extension",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Taoli Tools Extension",
 	"permissions": ["declarativeNetRequest"],
 	"host_permissions": [
@@ -16,7 +16,8 @@
 		"*://*.apex.exchange/*",
 		"*://*.asterdex.com/*",
 		"*://*.bybit.com/*",
-		"*://*.mexc.com/*"
+		"*://*.mexc.com/*",
+    "*://*.grvt.io/*"
 	],
 	"background": {
 		"service_worker": "background.js"

@@ -44,6 +44,7 @@ const urlFilters = [
 	"||mexc.com/",
 	"||backpack.exchange/",
 	"||asterdex.com/",
+  "||grvt.io/"
 ];
 
 const rules = urlFilters.map((urlFilter, index) => ({
