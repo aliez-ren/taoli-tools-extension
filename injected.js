@@ -1,3 +1,3 @@
-(() => {
-	globalThis.TaoliToolsExtension = {};
-})();
+;(() => {
+  globalThis.TaoliToolsExtension = {}
+})()
