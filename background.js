@@ -32,6 +32,7 @@ chrome.action.onClicked.addListener(async () => {
 })
 
 const urlFilters = [
+  '||larksuite.com/',
   '||gate.io/',
   '||gate.com/',
   '||gateio.ws/',
