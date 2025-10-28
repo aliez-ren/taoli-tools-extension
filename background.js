@@ -26,17 +26,26 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   return true
 })
 
-function getTitle() {
-  return document.title
-}
-
 chrome.action.onClicked.addListener(async (tab) => {
   chrome.scripting
     .executeScript({
       target: { tabId: tab.id },
-      func: getTitle,
+      func: () => {
+        const observer = new MutationObserver((mutations) => {
+          for (const mutation of mutations) {
+            console.log(mutation)
+          }
+        })
+        const node = document.querySelector('[data-testid="ask-price-display"]')
+        console.log(node)
+        observer.observe(node, { characterData: true, childList: true, subtree: true })
+      },
     })
-    .then(() => console.log('injected a function'))
+    .then((injectionResults) => {
+      for (const { documentId, frameId, result } of injectionResults) {
+        console.log(documentId, frameId, result)
+      }
+    })
 })
 
 const urlFilters = [
