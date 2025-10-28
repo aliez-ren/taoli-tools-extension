@@ -1,0 +1,7 @@
+{
+  "name": "taoli-tools-extension",
+  "devDependencies": {
+    "@biomejs/biome": "2.3.1",
+    "@types/chrome": "0.1.27"
+  }
+}

@@ -26,9 +26,17 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   return true
 })
 
-chrome.action.onClicked.addListener(async () => {
-  const url = 'https://taoli.tools'
-  await chrome.tabs.create({ url })
+function getTitle() {
+  return document.title
+}
+
+chrome.action.onClicked.addListener(async (tab) => {
+  chrome.scripting
+    .executeScript({
+      target: { tabId: tab.id },
+      func: getTitle,
+    })
+    .then(() => console.log('injected a function'))
 })
 
 const urlFilters = [
